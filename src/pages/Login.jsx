@@ -1,86 +1,118 @@
-import React, { useEffect, useState } from 'react'
-import './styles/Login.css'
-import EmailSVG from '../assets/EmailSVG.svg'
-import axios from 'axios'
-// import { toast } from 'react-toastify';
-import Cookies from 'universal-cookie'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import axios from "axios";
+import { generalFunctions } from "../configs/generalFunctions";
+import { useAtom } from "jotai";
+import { UserAtom } from "../Atoms/AtomStores";
+import { useNavigate } from "react-router-dom";
+import { QuestLogin, Toast } from "@questlabs/react-sdk";
+import LoginProvider from "../components/LoginProvider";
 
 const Login = () => {
-    const [email, setEmail] = useState('eve.holt@reqres.in')
-    const [password, setPassword] = useState('cityslicka')
-    const baseUrl = 'https://reqres.in';
-
-    const navigate = useNavigate();
-    const cookies = new Cookies();
-    const handleLogin = async () => {
-        try {
-            axios.post(`${baseUrl}/api/login`, {
-                email: email,
-                password: password
-            })
-                .then((res) => {
-                    console.log("Login Res:", res.data);
-
-
-                    const ExpireTime = new Date();
-                    ExpireTime.setHours(ExpireTime.getHours() + 24);
-
-                    cookies.set("employwiseToken", res.data, {
-                        path: "/",
-                        expires: ExpireTime,
-                    });
-
-                    navigate('/userslist');
-                })
-        } catch (error) {
-            console.log(error)
-            General.shareInstance.hideLoader();
-            toast.error(`Error Occurred!\nUnable to connect to Mixpanel`);
-        }
+  const navigate = useNavigate();
+  const query = new URLSearchParams(window.location.search);
+  const [userAtom, setUserAtom] = useAtom(UserAtom);
+  useEffect(() => {
+    if (query.get("organizationId")) {
+      localStorage.setItem("organizationId", query.get("organizationId"));
     }
-
-    useEffect(() => {
-        const token = cookies.get("employwiseToken");
-        console.log("token", token);
-        if (token?.token) {
-            navigate('/userslist');
+  }, []);
+  const handleSubmit = async (e) => {
+    const { userId, userCredentials, token } = e;
+    if (userId && token) {
+      const existingUserId = localStorage.getItem("userId");
+      if (existingUserId && existingUserId !== userId) {
+        localStorage.removeItem("UserAnswers");
+      }
+      localStorage.setItem("questUserId", userId);
+      localStorage.setItem("userCredentials", JSON.stringify(userCredentials));
+      localStorage.setItem("questUserToken", token);
+      localStorage.setItem("lastLoginSession", new Date().getTime());
+    }
+    try {
+      let organizationId =
+        query.get("organizationId") || localStorage.getItem("organizationId");
+      if (organizationId && organizationId !== "") {
+        localStorage.setItem("organizationId", organizationId);
+        let { url, headers } = generalFunctions.createUrl(
+          `users/${userId}?entityId=${organizationId}`
+        );
+        const response = await axios.get(url, { headers });
+        if (response.data.success === false) {
+          navigate("/onboarding?organization=" + organizationId);
+        } else {
+          let userData = response.data.data;
+          if (!userData.name || !userData.companyRole) {
+            navigate("/onboarding?organization=" + organizationId);
+          } else {
+            localStorage.setItem(
+              "userRecords",
+              JSON.stringify(response.data.data)
+            );
+            setUserAtom(response.data.data);
+            navigate("/");
+          }
         }
-    }, []);
+      } else {
+        let { url, headers } = generalFunctions.createUrl(
+          `users/${userId}/entities`
+        );
+        const response = await axios.get(url, { headers });
+        if (response.data.success === false) {
+          navigate("/onboarding?organization=false");
+        } else {
+          let entities = response.data.data;
+          if (entities.length == 0) {
+            navigate("/onboarding?organization=false");
+          } else if (entities.length == 1) {
+            localStorage.setItem("organizationId", entities[0].entityId);
+            localStorage.setItem("userRecords", JSON.stringify(entities[0]));
+            setUserAtom(entities[0]);
+            navigate("/");
+          } else {
+            navigate("/select-organization");
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching claimed status:", error);
+    }
+  };
 
-    return (
-        <div className='employ-login-page'>
-            <div className='login-page-left-div'>
+  return (
+    <LoginProvider>
+    <div className="h-screen">
+      <div className="flex flex-col flex-1 h-full justify-center items-center">
+        <QuestLogin
+          googleClientId="55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
+          google={true}
+          email={true}
+          redirectUri="http://localhost:5173/login"
+          redirectURL="http://localhost:5173/onboarding"
+          styleConfig={{
+            Heading: {
+              fontSize: "24px",
+              color: "#252525",
+              lineHeight: "32px",
+            },
+            Description: {},
+            Input: {},
+            Label: {},
+            TextArea: {},
+            PrimaryButton: {},
+            SecondaryButton: {},
+            Form: { boxShadow: "none" },
+            Footer: { FooterStyle: {}, FooterText: {}, FooterIcon: {} },
+            IconStyle: { BorderColor: "", Background: "", color: "" },
+          }}
+          showFooter={false}
+          descriptionText="Welcome to Quest"
+          onSubmit={handleSubmit}
+          onError={(e) => Toast.error({ text: e.error })}
+        />
+      </div>
+    </div>
+    </LoginProvider>
+  );
+};
 
-            </div>
-            <div className='login-page-right-div'>
-                <div className='login-page-form-cont'>
-                    <div className='login-page-input--cont'>
-                        <div className='login-page-input-label'>
-                            <p>Email Address</p>
-                            <div>
-                                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                <img src={EmailSVG} alt="" />
-                            </div>
-                        </div>
-                        <div className='login-page-input-label'>
-                            <p>Password</p>
-                            <div>
-                                <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                <img src={EmailSVG} alt="" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='login-page-submit-btn'>
-                        <button onClick={handleLogin}>
-                            <p>Login</p>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-export default Login
+export default Login;
