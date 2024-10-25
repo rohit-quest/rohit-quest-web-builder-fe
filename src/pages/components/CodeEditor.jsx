@@ -18,7 +18,7 @@ export function CodeEditor({ code, language, onChange }) {
     };
 
     return (
-        <div className="relative">
+        <div className="w-full">
             <button
                 onClick={handleCopy}
                 className="absolute top-4 right-4 p-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
@@ -38,7 +38,7 @@ export function CodeEditor({ code, language, onChange }) {
                     borderRadius: '0.5rem',
                     minHeight: '400px',
                 }}
-                className="w-full overflow-auto text-gray-300"
+                className="w-full h-full overflow-auto text-gray-300"
             />
         </div>
     );

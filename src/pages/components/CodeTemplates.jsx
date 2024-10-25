@@ -1,18 +1,21 @@
 import React from 'react';
 import { Code, Layout, Timer } from 'lucide-react';
+import TestComponent from './TestComponent';
+
 
 export const codeTemplates = {
-    counter: {
-        name: 'Counter',
-        icon: Timer,
-        code: `function App() {
+  counter: {
+    name: 'Counter',
+    icon: Timer,
+    code: `function App() {
   const [count, setCount] = React.useState(0);
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className="mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">
         Counter Example
       </h1>
+     {/* TestComponentPlaceholder */}
       <p className="text-xl mb-4 text-gray-600">Count: {count}</p>
       <div className="space-x-2">
         <button
@@ -31,11 +34,11 @@ export const codeTemplates = {
     </div>
   );
 }`
-    },
-    todoList: {
-        name: 'Todo List',
-        icon: Layout,
-        code: `function App() {
+  },
+  todoList: {
+    name: 'Todo List',
+    icon: Layout,
+    code: `function App() {
   const [todos, setTodos] = React.useState([]);
   const [input, setInput] = React.useState('');
 
@@ -53,7 +56,7 @@ export const codeTemplates = {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className=" mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Todo List</h1>
       
       <form onSubmit={addTodo} className="mb-4 flex gap-2">
@@ -94,11 +97,11 @@ export const codeTemplates = {
     </div>
   );
 }`
-    },
-    apiExample: {
-        name: 'API Example',
-        icon: Code,
-        code: `function App() {
+  },
+  apiExample: {
+    name: 'API Example',
+    icon: Code,
+    code: `function App() {
   const [posts, setPosts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
@@ -149,5 +152,5 @@ export const codeTemplates = {
     </div>
   );
 }`
-    }
+  }
 };

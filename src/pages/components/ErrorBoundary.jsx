@@ -21,7 +21,7 @@ export class ErrorBoundary extends Component {
     render() {
         if (this.state.hasError) {
             return (
-                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div className="w-full p-4 bg-red-50 border border-red-200 rounded-lg">
                     <div className="flex items-center gap-2 text-red-600 mb-2">
                         <AlertOctagon size={20} />
                         <h2 className="font-semibold">Runtime Error</h2>
