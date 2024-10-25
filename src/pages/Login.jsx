@@ -49,33 +49,35 @@ const Login = () => {
     }, []);
 
     return (
-        <div className='employ-login-page'>
-            <div className='login-page-left-div'>
+        <div className='w-screen'>
+            <div className='employ-login-page'>
+                <div className='login-page-left-div'>
 
-            </div>
-            <div className='login-page-right-div'>
-                <div className='login-page-form-cont'>
-                    <div className='login-page-input--cont'>
-                        <div className='login-page-input-label'>
-                            <p>Email Address</p>
-                            <div>
-                                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                <img src={EmailSVG} alt="" />
+                </div>
+                <div className='login-page-right-div'>
+                    <div className='login-page-form-cont'>
+                        <div className='login-page-input--cont'>
+                            <div className='login-page-input-label'>
+                                <p>Email Address</p>
+                                <div>
+                                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <img src={EmailSVG} alt="" />
+                                </div>
+                            </div>
+                            <div className='login-page-input-label'>
+                                <p>Password</p>
+                                <div>
+                                    <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                    <img src={EmailSVG} alt="" />
+                                </div>
                             </div>
                         </div>
-                        <div className='login-page-input-label'>
-                            <p>Password</p>
-                            <div>
-                                <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                <img src={EmailSVG} alt="" />
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className='login-page-submit-btn'>
-                        <button onClick={handleLogin}>
-                            <p>Login</p>
-                        </button>
+                        <div className='login-page-submit-btn'>
+                            <button onClick={handleLogin}>
+                                <p>Login</p>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
