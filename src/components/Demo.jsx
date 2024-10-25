@@ -12,7 +12,7 @@ const Demo = () => {
               </h2>
               <p className="text-gray-300">
                 Watch how our AI transforms simple text descriptions into
-                beautiful, functional web components in real-time.
+                beautiful, functional web components in real-time
               </p>
               <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transform transition-all hover:scale-105">
                 Try Demo
