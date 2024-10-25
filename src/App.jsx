@@ -4,7 +4,7 @@ import Home from './pages/Home'
 import Generate from './pages/Generate'
 import Login from './pages/Login'
 import Onboarding from './components/Onboarding'
-import PreviewPage from "./pages/PreviewPage";
+// import PreviewPage from "./pages/PreviewPage";
 // import Create from './components/Create'
 
 const App = () => {
