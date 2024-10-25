@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { ErrorBoundary } from './ErrorBoundary.jsx';
 
 export function Preview({ code }) {
-    const iframeRef = useRef(null);
+  const iframeRef = useRef(null);
 
-    useEffect(() => {
-        if (iframeRef.current) {
-            const template = `
+  useEffect(() => {
+    if (iframeRef.current) {
+      const template = `
         <!DOCTYPE html>
         <html>
           <head>
@@ -43,20 +43,21 @@ export function Preview({ code }) {
         </html>
       `;
 
-            iframeRef.current.srcdoc = template;
-        }
-    }, [code]);
+      iframeRef.current.srcdoc = template;
+    }
+  }, [code]);
 
-    return (
-        <ErrorBoundary>
-            <div className="w-full h-full min-h-[500px] bg-white rounded-lg shadow-lg overflow-hidden">
-                <iframe
-                    ref={iframeRef}
-                    title="preview"
-                    className="w-full h-full border-0"
-                    sandbox="allow-scripts"
-                />
-            </div>
-        </ErrorBoundary>
-    );
+  return (
+    <ErrorBoundary>
+      {/* for creen size add here cond */}
+      <div className="w-full h-full  bg-white rounded-lg shadow-lg overflow-hidde">
+        <iframe
+          ref={iframeRef}
+          title="preview"
+          className="w-full h-full border-0 bg-red"
+          sandbox="allow-scripts"
+        />
+      </div>
+    </ErrorBoundary>
+  );
 }

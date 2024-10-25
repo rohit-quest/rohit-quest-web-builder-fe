@@ -1,18 +1,20 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import PreviewPage from './pages/PreviewPage'
+import Generate from './pages/Generate'
 import Login from './pages/Login'
 import Onboarding from './components/Onboarding'
+// import Create from './components/Create'
 
 const App = () => {
   return (
-    <div className='w-screen'>
+    <div className='h-screen'>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/onboarding' element={<Onboarding />} />
-        <Route path='/generate' element={<PreviewPage />} />
+        {/* <Route path='/create' element={<Create />} /> */}
+        <Route path='/generate' element={<Generate />} />
       </Routes>
     </div>
   )
