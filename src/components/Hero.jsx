@@ -1,6 +1,9 @@
 import React from "react";
 import { Bot } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 const Hero = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="container mx-auto px-4 py-20">
@@ -16,7 +19,7 @@ const Hero = () => {
             advanced AI, create professional-grade web components with just a
             few words.
           </p>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg transform transition-all hover:scale-105 shadow-lg hover:shadow-blue-500/25">
+          <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg transform transition-all hover:scale-105 shadow-lg hover:shadow-blue-500/25" onClick={() => { navigate('/generate') }}>
             Start Building Now
           </button>
         </div>
