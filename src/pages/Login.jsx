@@ -80,37 +80,46 @@ const Login = () => {
 
   return (
     <LoginProvider>
-    <div className="h-screen">
-      <div className="flex flex-col flex-1 h-full justify-center items-center">
-        <QuestLogin
-          googleClientId="55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
-          google={true}
-          email={true}
-          redirectUri="http://localhost:5173/login"
-          redirectURL="http://localhost:5173/onboarding"
-          styleConfig={{
-            Heading: {
-              fontSize: "24px",
-              color: "#252525",
-              lineHeight: "32px",
-            },
-            Description: {},
-            Input: {},
-            Label: {},
-            TextArea: {},
-            PrimaryButton: {},
-            SecondaryButton: {},
-            Form: { boxShadow: "none" },
-            Footer: { FooterStyle: {}, FooterText: {}, FooterIcon: {} },
-            IconStyle: { BorderColor: "", Background: "", color: "" },
-          }}
-          showFooter={false}
-          descriptionText="Welcome to Quest"
-          onSubmit={handleSubmit}
-          onError={(e) => Toast.error({ text: e.error })}
-        />
+      <div className="h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+        <div className="flex flex-col flex-1 h-full justify-center items-center">
+          <QuestLogin
+            googleClientId="55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
+            google={true}
+            email={true}
+            redirectUri="http://localhost:5173/login"
+            redirectURL="http://localhost:5173/onboarding"
+            styleConfig={{
+              Heading: {
+                fontSize: "24px",
+                color: "white",
+                lineHeight: "32px",
+              },
+              Description: {},
+              Input: {},
+              Label: {},
+              TextArea: {},
+              PrimaryButton: {
+                color: "white",
+                background: "#3B82F6",
+                border: "none"
+              },
+              SecondaryButton: {
+                color: "white",
+                background: "#1c2532"
+              },
+              Form: { boxShadow: "none", background: '#1f2937 ' },
+              Footer: { FooterStyle: {}, FooterText: {}, FooterIcon: {} },
+              IconStyle: { BorderColor: "", Background: "", color: "" },
+
+            }}
+            showFooter={false}
+            descriptionText="Welcome to Quest"
+            onSubmit={handleSubmit}
+            onError={(e) => Toast.error({ text: e.error })}
+            backgroundColor="red"
+          />
+        </div>
       </div>
-    </div>
     </LoginProvider>
   );
 };
