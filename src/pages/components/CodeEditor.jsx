@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-markup';
@@ -8,8 +8,10 @@ import 'prismjs/components/prism-jsx';
 import 'prismjs/themes/prism-tomorrow.css';
 import { Copy, Check } from 'lucide-react';
 
-export function CodeEditor({ code, language, onChange }) {
+export function CodeEditor({ code, language = "jsx", onChange }) {
     const [copied, setCopied] = useState(false);
+
+    const highlightedCode = useMemo(() => highlight(code, languages[language], language), [code, language]);
 
     const handleCopy = async () => {
         await navigator.clipboard.writeText(code);
@@ -21,15 +23,15 @@ export function CodeEditor({ code, language, onChange }) {
         <div className="w-full">
             <button
                 onClick={handleCopy}
-                className="absolute top-4 right-4 p-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-                title="Copy code"
+                className="absolute z-10 top-40 right-10 p-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+                aria-live="polite"
             >
                 {copied ? <Check size={18} /> : <Copy size={18} />}
             </button>
             <Editor
                 value={code}
                 onValueChange={onChange}
-                highlight={code => highlight(code, languages.jsx, 'jsx')}
+                highlight={()=> highlightedCode}
                 padding={16}
                 style={{
                     fontFamily: '"Fira code", "Fira Mono", monospace',

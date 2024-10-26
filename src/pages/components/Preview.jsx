@@ -1,11 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { ErrorBoundary } from './ErrorBoundary.jsx';
-
+import * as Babel from '@babel/standalone';
 export function Preview({ code }) {
   const iframeRef = useRef(null);
 
   useEffect(() => {
     if (iframeRef.current) {
+      iframeRef.current.srcdoc = '';
+      let transpiledCode = '';
+      try {
+        transpiledCode = Babel.transform(code, { presets: ['react'] }).code;
+      } catch (error) {
+        transpiledCode = `throw new Error("Babel transpilation failed: ${error.message}")`;
+      }
       const template = `
         <!DOCTYPE html>
         <html>
@@ -13,7 +20,6 @@ export function Preview({ code }) {
             <meta charset="utf-8">
             <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
             <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-            <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
             <script src="https://cdn.tailwindcss.com"></script>
             <style>
               body { margin: 0; font-family: system-ui, sans-serif; }
@@ -22,13 +28,16 @@ export function Preview({ code }) {
           </head>
           <body>
             <div id="root"></div>
-            <script type="text/babel">
-              ${code}
-              
-              try {
+            <script>
+            window.onload = function(){
+            try {
+              ${transpiledCode}
+              if (typeof App === 'undefined') {
+                  throw new Error('App component is not defined');
+                }
                 const rootElement = document.getElementById('root');
                 const root = ReactDOM.createRoot(rootElement);
-                root.render(<App />);
+                root.render(React.createElement(App));
               } catch (error) {
                 const rootElement = document.getElementById('root');
                 rootElement.innerHTML = \`
@@ -38,19 +47,21 @@ export function Preview({ code }) {
                   </div>
                 \`;
               }
+    }
             </script>
           </body>
         </html>
       `;
-
-      iframeRef.current.srcdoc = template;
+      setTimeout(() => {
+        iframeRef.current.srcdoc = template;
+      },500)
     }
   }, [code]);
 
   return (
     <ErrorBoundary>
       {/* for creen size add here cond */}
-      <div className="w-full h-full  bg-white rounded-lg shadow-lg overflow-hidde">
+      <div className="w-full h-full  bg-white rounded-lg shadow-lg overflow-hidden">
         <iframe
           ref={iframeRef}
           title="preview"
