@@ -8,7 +8,7 @@ const Navigation = () => {
     return (
         <div className="flex items-center justify-between p-[16px]">
             <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
-                <h1 className="text-xl font-bold">Web Builder</h1>
+                <h1 className="text-xl font-bold">AI | Web Craft</h1>
             </div>
             <div className="flex space-x-2">
                 {/* <button
