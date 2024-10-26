@@ -12,9 +12,8 @@ import PreviewSVG from '../assets/Preview.svg'
 import CodeSVG from '../assets/Code.svg'
 
 const Generate = () => {
-    const [code, setCode] = useState(codeTemplates.counter.code);
+    const [code, setCode] = useState(codeTemplates?.apiExample?.code);
     const [view, setView] = useState('code');
-
     const [prompt, setPrompt] = useState('');
 
     return (
@@ -40,7 +39,7 @@ const Generate = () => {
 
 
             <main className="w-full mx-auto px-4 ">
-                <div className='w-full h-screen flex justify-center gap-2 h-[calc(100vh-144px)]' >
+                <div className='w-full  flex justify-center gap-2 h-[calc(100vh-144px)]' >
                     <div className="w-full max-h-screen max-w-96 flex items-end">
                         <div className="h-full flex-1 flex flex-col justify-end">
                             <div className="border-gray-200 p-4  rounded-lg bg-gray-800">
@@ -63,9 +62,8 @@ const Generate = () => {
                                     <div className='w-full flex gap-2 justify-start items-center'>
                                         <span>Secondary Color:</span> <ColorPicker />
                                     </div>
-
                                     <button
-                                        className="w-full inline-flex justify-center items-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2  bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-400"
+                                        className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2  bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-400"
                                     >
                                         <span>Generate</span>
                                         <Wand2 className="ml-2 h-4 w-4" />
