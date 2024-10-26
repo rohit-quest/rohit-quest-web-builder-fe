@@ -1,9 +1,18 @@
 import React from "react";
-
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "../Hooks/useScrollAnimation";
+import { scrollUpVariants } from "../configs/animationVariants";
 const Demo = () => {
+  const {ref, controls} = useScrollAnimation();
   return (
     <div>
-      <div className="container mx-auto px-4 py-20">
+      <motion.div className="container mx-auto px-4 py-20"
+      variants={scrollUpVariants}
+      initial="hidden"
+      animate={controls}
+      ref={ref}
+      exit={"exit"}
+      >
         <div className="bg-gradient-to-r from-blue-500/10 to-violet-500/10 rounded-2xl p-8 md:p-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex-1 space-y-6">
@@ -27,7 +36,7 @@ const Demo = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -1,12 +1,21 @@
 import React from "react";
 import { Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "../Hooks/useScrollAnimation";
+import { scrollUpVariants } from "../configs/animationVariants";
 const Hero = () => {
   const navigate = useNavigate();
+  const { ref, controls } = useScrollAnimation();
   return (
     <>
-      <div className="container mx-auto px-4 py-20">
+      <motion.div className="container mx-auto px-4 py-20"
+      variants={scrollUpVariants}
+      initial="hidden"
+      animate={controls}
+      ref={ref}
+      exit={"exit"}
+      >
         <div className="flex flex-col items-center text-center space-y-8">
           <div className="bg-blue-500/10 p-4 rounded-full">
             <Bot className="w-16 h-16 text-blue-400" />
@@ -19,11 +28,16 @@ const Hero = () => {
             advanced AI, create professional-grade web components with just a
             few words.
           </p>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg transform transition-all hover:scale-105 shadow-lg hover:shadow-blue-500/25" onClick={() => { navigate('/generate') }}>
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg transform transition-all hover:scale-105 shadow-lg hover:shadow-blue-500/25"
+            onClick={() => {
+              navigate("/generate");
+            }}
+          >
             Start Building Now
           </button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

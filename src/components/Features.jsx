@@ -1,6 +1,7 @@
 import React from "react";
 import FeatureCard from "./FeatureCard";
 import { Bot, Code2, Zap, Palette, Blocks, Sparkles } from "lucide-react";
+
 const Features = () => {
   return (
     <div>
