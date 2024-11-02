@@ -12,7 +12,7 @@ import PreviewSVG from '../assets/Preview.svg'
 import CodeSVG from '../assets/Code.svg'
 
 const Generate = () => {
-    const [code, setCode] = useState(codeTemplates?.apiExample?.code);
+    const [code, setCode] = useState(codeTemplates?.counter?.code);
     const [view, setView] = useState('code');
     const [prompt, setPrompt] = useState('');
 
