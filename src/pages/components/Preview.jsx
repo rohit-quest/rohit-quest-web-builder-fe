@@ -23,7 +23,7 @@ export function Preview({ code }) {
             <script src="https://cdn.tailwindcss.com"></script>
             <style>
               body { margin: 0; font-family: system-ui, sans-serif; }
-              #root { padding: 1rem; }
+              #root { padding: 0; }
             </style>
           </head>
           <body>
@@ -47,7 +47,7 @@ export function Preview({ code }) {
                   </div>
                 \`;
               }
-    }
+            }
             </script>
           </body>
         </html>
@@ -60,7 +60,6 @@ export function Preview({ code }) {
 
   return (
     <ErrorBoundary>
-      {/* for creen size add here cond */}
       <div className="w-full h-full  bg-white rounded-lg shadow-lg overflow-hidden">
         <iframe
           ref={iframeRef}

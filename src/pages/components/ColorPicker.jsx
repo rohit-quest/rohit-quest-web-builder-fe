@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-const ColorPicker = ({ initialColor = '#4F46E5', onChange, label }) => {
+const ColorPicker = ({ color, setColor, onChange, label }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [color, setColor] = useState(initialColor);
-    const [tempColor, setTempColor] = useState(initialColor);
+    const [tempColor, setTempColor] = useState(color);
 
     const presetColors = [
         '#4F46E5', // Indigo
