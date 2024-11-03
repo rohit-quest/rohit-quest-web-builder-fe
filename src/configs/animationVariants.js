@@ -7,8 +7,8 @@ export const animationHomeVariantsleft = {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 2,
-      delay: 0.5,
+      duration: 1,
+      delay: 0,
       ease: "easeInOut",
       staggerChildren: 0.3,
     },
@@ -31,8 +31,8 @@ export const animationHomeVariantsRight = {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 2,
-      delay: 0.5,
+      duration: 1,
+      delay: 0,
       ease: "easeInOut",
       staggerChildren: 0.3,
     },

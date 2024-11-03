@@ -53,7 +53,7 @@ const Onboarding = () => {
           singleChoose="modal3"
           multiChoice="modal2"
           styleConfig={{
-            Form: { width: "48%" },
+            Form: { width: "100%", background: "transparent", maxWidth: "400px" },
             Topbar: {},
             Heading: {
               fontSize: "24px",
@@ -66,12 +66,12 @@ const Onboarding = () => {
               fontWeight: "500",
               color: "#939393",
             },
-            Input: { lineHeight: "20px" },
-            Label: { fontWeight: "500" },
+            Input: { lineHeight: "20px", color: "white" },
+            Label: { fontWeight: "500", color: "white" },
             TextArea: {},
-            PrimaryButton: {},
+            PrimaryButton: {background: "#0dacde"},
             SecondaryButton: {},
-            SingleChoice: { style: {}, selectedStyle: {} },
+            SingleChoice: { style: {color: "white", background: "#192231"}, selectedStyle: {} },
             MultiChoice: { style: {}, selectedStyle: {} },
             ProgressBar: {
               completeTabColor: "",

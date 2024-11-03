@@ -29,7 +29,7 @@ const ColorPicker = ({ initialColor = '#4F46E5', onChange, label }) => {
     };
 
     return (
-        <div className="">
+        <div className="relative">
             {label && (
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                     {label}
@@ -48,7 +48,7 @@ const ColorPicker = ({ initialColor = '#4F46E5', onChange, label }) => {
             </button>
 
             {isOpen && (
-                <div className="flex flex-col w-[230px] absolute gap-2 z-10 mt-2 p-4 bg-[#1E1E1E] rounded-lg shadow-lg border border-gray-600 ">
+                <div className="flex flex-col w-[230px] absolute gap-2 z-10 mt-2 p-4 bg-[#1E1E1E] rounded-lg shadow-lg border border-gray-600 bottom-8 left-3">
                     <div className="w-full">
                         <div>
                             <div className="flex justify-between items-center mb-2">

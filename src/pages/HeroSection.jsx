@@ -11,11 +11,12 @@ const HeroSection = () => {
 
   return (
     <div className="hero-section w-[90%] flex justify-center items-center gap-[28px] m-auto mt-[80px]">
-      <motion.div className="flex flex-col gap-[40px]"
-      variants={animationHomeVariantsleft}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
+      <motion.div 
+        className="flex flex-col gap-[40px]"
+        variants={animationHomeVariantsleft}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
       >
         <div className="hero-section-text-container">
           <TypeAnimation
@@ -45,12 +46,12 @@ const HeroSection = () => {
       </motion.div>
 
       <motion.div
-      variants={animationHomeVariantsRight}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
+        variants={animationHomeVariantsRight}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
       >
-        <img src={RobotSVG} alt="RobotSVG" />
+        <img src={RobotSVG} alt="RobotSVG" className=""/>
       </motion.div>
     </div>
   );

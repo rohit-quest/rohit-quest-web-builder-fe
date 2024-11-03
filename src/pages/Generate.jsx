@@ -51,7 +51,7 @@ const Generate = () => {
                                             value={prompt}
                                             onChange={(e) => setPrompt(e.target.value)}
                                             placeholder="Describe what you want to create..."
-                                            className="resize-none w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-transparent"
+                                            className="resize-none w-full px-4 py-2 ring-1 ring-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-transparent"
                                         />
                                     </div>
 
