@@ -1,5 +1,5 @@
 export const Config = {
-    BACKEND_URL: 'http://localhost:8000/'
+    BACKEND_URL: 'https://web-craft-server.onrender.com/'
 }
 
 
