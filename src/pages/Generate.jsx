@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CodeEditor } from './components/CodeEditor.jsx';
 import { Preview } from './components/Preview.jsx';
 import { TemplateSelector } from './components/TemplateSelector.jsx';
-import { Layout, Code2, SplitSquareVertical } from 'lucide-react';
+import { Layout, Code2, SplitSquareVertical, ArrowUpRight } from 'lucide-react';
 import { codeTemplates } from './components/CodeTemplates.jsx';
 import { Palette, Type, Wand2 } from 'lucide-react';
 import Navigation from '../components/Navigation.jsx';
@@ -10,11 +10,51 @@ import ColorPicker from './components/ColorPicker.jsx';
 
 import PreviewSVG from '../assets/Preview.svg'
 import CodeSVG from '../assets/Code.svg'
+import axios from 'axios';
+import { Config, GeneralFunctions } from '../assets/config.js';
+import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import { Loader } from '../Atoms/AtomStores.js';
 
 const Generate = () => {
     const [code, setCode] = useState(codeTemplates?.counter?.code);
+    const [icons, setIcons] = useState([]);
+    const [data, setData] = useState({});
     const [view, setView] = useState('code');
     const [prompt, setPrompt] = useState('');
+    const [primaryColor, setPrimaryColor] = useState('#334155');
+    const [secondaryColor, setSecondaryColor] = useState('#b0b0b0');
+    const [loader, setLoader] = useAtom(Loader);
+
+
+
+    const getCode = () => {
+        try {
+            if (prompt === '') {
+                return;
+            }
+            setLoader(true);
+            axios.post(Config.BACKEND_URL + 'api/gpt/generate', {
+                prompt: prompt,
+                primaryColor: primaryColor,
+                secondaryColor: secondaryColor,
+                userId: localStorage.getItem('questUserId')
+            }).then(res => {
+                if (res?.data?.response) {
+                    const { cleanedCode, icons } = GeneralFunctions.codeExtractor(res.data.response);
+                    setCode(cleanedCode);
+                    setIcons(icons);
+                    setData(res.data);
+                    setLoader(false);
+                }
+            })
+        } catch (error) {
+            console.log(error);
+            setLoader(false);
+        }
+    }
+
+
 
     return (
         <div className="w-full min-h-screen bg-gray-900 text-white">
@@ -35,6 +75,13 @@ const Generate = () => {
                     }`} onClick={() => { setView('preview') }}>
                     <img className='h-4 w-4' src={PreviewSVG} alt="" />
                 </button>
+                {
+                    data?._id &&
+                    <div className='flex items-center gap-2 border border-gray-600 px-2 rounded-md'>
+                        <p>{window.location.origin}/preview/{data?._id}</p>
+                        <ArrowUpRight color='rgb(147, 51, 234)' className='cursor-pointer' onClick={() => window.open(`${window.location.origin}/preview/${data?._id}`)} />
+                    </div>
+                }
             </div>
 
 
@@ -56,14 +103,15 @@ const Generate = () => {
                                     </div>
 
                                     <div className='w-full flex gap-2 justify-start items-center'>
-                                        <span>Primary Color:</span> <ColorPicker />
+                                        <span>Primary Color:</span> <ColorPicker color={primaryColor} setColor={setPrimaryColor} />
                                     </div>
 
                                     <div className='w-full flex gap-2 justify-start items-center'>
-                                        <span>Secondary Color:</span> <ColorPicker />
+                                        <span>Secondary Color:</span> <ColorPicker color={secondaryColor} setColor={setSecondaryColor} />
                                     </div>
                                     <button
                                         className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2  bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-400"
+                                        onClick={() => getCode()}
                                     >
                                         <span>Generate</span>
                                         <Wand2 className="ml-2 h-4 w-4" />
@@ -79,7 +127,7 @@ const Generate = () => {
                                 code={code}
                                 language="jsx"
                                 onChange={setCode}
-                            /> : <Preview code={code} />}
+                            /> : <Preview code={code} iconNames={icons} />}
                         </div>
                     </div>
                 </div>
