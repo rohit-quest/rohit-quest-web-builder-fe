@@ -8,10 +8,10 @@ const Footer = () => {
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <Bot className="w-6 h-6 text-blue-400" />
-              <span className="font-semibold">AI Website Generator</span>
+              <span className="font-semibold">AI | Web Craft</span>
             </div>
             <div className="text-sm text-gray-400">
-              © 2024 AI Website Generator. All rights reserved.
+              © 2024 AI | Web Craft. All rights reserved.
             </div>
           </div>
         </div>
