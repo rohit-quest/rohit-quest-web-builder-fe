@@ -84,7 +84,7 @@ const Login = () => {
         <div className="flex flex-col flex-1 h-full justify-center items-center">
           <QuestLogin
             googleClientId="55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
-            google={true}
+            google={false}
             email={true}
             redirectUri="https://web-craft-quest.netlify.app/login"
             redirectURL="https://web-craft-quest.netlify.app/onboarding"
