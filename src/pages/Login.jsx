@@ -6,6 +6,7 @@ import { UserAtom } from "../Atoms/AtomStores";
 import { useNavigate } from "react-router-dom";
 import { QuestLogin, Toast } from "@questlabs/react-sdk";
 import LoginProvider from "../components/LoginProvider";
+import { mainConfig } from "../configs/AppConfig";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,54 +29,33 @@ const Login = () => {
       localStorage.setItem("questUserToken", token);
       localStorage.setItem("lastLoginSession", new Date().getTime());
     }
-    try {
-      let organizationId =
-        query.get("organizationId") || localStorage.getItem("organizationId");
-      if (organizationId && organizationId !== "") {
-        localStorage.setItem("organizationId", organizationId);
-        let { url, headers } = generalFunctions.createUrl(
-          `users/${userId}?entityId=${organizationId}`
-        );
-        const response = await axios.get(url, { headers });
-        if (response.data.success === false) {
-          navigate("/onboarding?organization=" + organizationId);
-        } else {
-          let userData = response.data.data;
-          if (!userData.name || !userData.companyRole) {
-            navigate("/onboarding?organization=" + organizationId);
-          } else {
-            localStorage.setItem(
-              "userRecords",
-              JSON.stringify(response.data.data)
-            );
-            setUserAtom(response.data.data);
-            navigate("/");
+    axios(`https://staging-api.questlabs.ai/api/v2/entities/${mainConfig.QUEST_ENTITY_ID}/campaigns/${mainConfig.QUEST_ID}?platform=REACT`, {
+      headers: {
+        apiKey: mainConfig.QUEST_API_KEY,
+        userId: userId,
+        token: token,
+        entityId: mainConfig.QUEST_ENTITY_ID,
+      }
+    }).then(res => {
+      if (res?.data?.success) {
+        let data = res.data.data;
+        let answers = {}
+        let gotAnswer = data.actions.forEach((ele) => {
+          console.log(ele)
+          if (ele.actionId == "ca-7367b25e-8628-4b0e-8dd3-2e4f6e3970d2" && ele?.answers?.length) {
+            answers["fullName"] = ele.answers[0];
+            return
           }
-        }
-      } else {
-        let { url, headers } = generalFunctions.createUrl(
-          `users/${userId}/entities`
-        );
-        const response = await axios.get(url, { headers });
-        if (response.data.success === false) {
-          navigate("/onboarding?organization=false");
+        });
+        if (answers?.fullName) {
+          localStorage.setItem("UserAnswers", JSON.stringify(answers));
+          setUserAtom(answers);
+          navigate("/generate");
         } else {
-          let entities = response.data.data;
-          if (entities.length == 0) {
-            navigate("/onboarding?organization=false");
-          } else if (entities.length == 1) {
-            localStorage.setItem("organizationId", entities[0].entityId);
-            localStorage.setItem("userRecords", JSON.stringify(entities[0]));
-            setUserAtom(entities[0]);
-            navigate("/");
-          } else {
-            navigate("/select-organization");
-          }
+          navigate("/onboarding");
         }
       }
-    } catch (error) {
-      console.error("Error fetching claimed status:", error);
-    }
+    })
   };
 
   return (
@@ -86,8 +66,8 @@ const Login = () => {
             googleClientId="55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
             google={false}
             email={true}
-            redirectUri="https://web-craft-quest.netlify.app/login"
-            redirectURL="https://web-craft-quest.netlify.app/onboarding"
+            // redirectUri="https://web-craft-quest.netlify.app/login"
+            // redirectURL="https://web-craft-quest.netlify.app/onboarding"
             styleConfig={{
               Heading: {
                 fontSize: "24px",

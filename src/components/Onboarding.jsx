@@ -16,25 +16,22 @@ const Onboarding = () => {
   async function handleGetAnswers() {
     const UserAnswers = {
       fullName: answers["ca-7367b25e-8628-4b0e-8dd3-2e4f6e3970d2"],
-      email: localStorage.getItem("userCredentials")
-        ? JSON.parse(localStorage.getItem("userCredentials")).email
-        : "",
-      phoneNumber: answers["ca-6ea6907a-bd85-475f-9c39-1bb15f6cd7b6"],
-      dob: answers["ca-cbd0c81a-db79-48b6-8341-e2648d7ca558"],
+      company_name: answers["ca-1287711c-2617-470e-87a2-1df8682a3a77"],
       role: answers["ca-1287711c-2617-470e-87a2-1df8682a3a77"],
     };
-    let { url, headers } = generalFunctions.createUrl(
-      `users/${generalFunctions.getUserId()}`
-    );
-    let response = await axios.patch(url, UserAnswers, {
-      headers: { ...headers, entityId: query.get("organization") },
-    });
+    // let { url, headers } = generalFunctions.createUrl(
+    //   `users/${generalFunctions.getUserId()}`
+    // );
+    // let response = await axios.patch(url, UserAnswers, {
+    //   headers: { ...headers, entityId: query.get("organization") },
+    // });
 
-    if (response.data.success === true) {
-      localStorage.setItem("userRecords", JSON.stringify(response.data.data));
-      localStorage.setItem("organizationId", response.data.data.entityId);
-      setUserAtom(response.data.data);
-    }
+    // if (response.data.success === true) {
+      // localStorage.setItem("userRecords", JSON.stringify(response.data.data));
+      // localStorage.setItem("organizationId", response.data.data.entityId);
+      setUserAtom(UserAnswers);
+      navigate("/generate");
+    // }
   }
   return (
     <LoginProvider>
