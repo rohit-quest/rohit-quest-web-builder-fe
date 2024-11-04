@@ -25,12 +25,17 @@ const Generate = () => {
     const [primaryColor, setPrimaryColor] = useState('#334155');
     const [secondaryColor, setSecondaryColor] = useState('#b0b0b0');
     const [loader, setLoader] = useAtom(Loader);
+    const navigate = useNavigate();
 
 
 
     const getCode = () => {
         try {
             if (prompt === '') {
+                return;
+            }
+            if (localStorage.getItem('questUserId') === null) {
+                navigate('/login');
                 return;
             }
             setLoader(true);
@@ -51,6 +56,25 @@ const Generate = () => {
         } catch (error) {
             console.log(error);
             setLoader(false);
+        }
+    }
+
+    const updateCode = (element, prompt) => {
+        try {
+            setLoader(true);
+            axios.post(Config.BACKEND_URL + 'api/gpt/edit', {
+                promptId: data?._id,
+                code: element.replace(" inspector-highlight", ''),
+                prompt
+            }).then(res => {
+                if (res?.data?.response) {
+                    const { cleanedCode, icons } = GeneralFunctions.codeExtractor(res.data.response);
+                    setCode(cleanedCode);
+                    setLoader(false);
+                }
+            })
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -127,7 +151,7 @@ const Generate = () => {
                                 code={code}
                                 language="jsx"
                                 onChange={setCode}
-                            /> : <Preview code={code} iconNames={icons} />}
+                            /> : <Preview code={code} UpdateCode={updateCode} />}
                         </div>
                     </div>
                 </div>

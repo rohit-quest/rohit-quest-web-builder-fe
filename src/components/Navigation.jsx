@@ -7,7 +7,7 @@ const Navigation = () => {
 
   return (
     <nav className="flex items-center p-[16px] max-w-[100%] border-b border-borderColor">
-      <div className="min-w-[80%] flex items-center justify-between m-auto">
+      <div className="w-full flex items-center justify-between m-auto">
         <div
           className="flex items-center space-x-2 cursor-pointer"
           onClick={() => navigate("/")}
@@ -16,14 +16,21 @@ const Navigation = () => {
         </div>
         <div className="flex space-x-2 gap-4">
           <button
-            onClick={() => navigate("/login")}
+            onClick={() => {
+              if (localStorage.getItem("questUserId")) {
+                localStorage.clear();
+                navigate("/");
+              } else {
+                navigate("/login");
+              }
+            }}
             className={`px-4 py-2 rounded flex items-center gap-2 ${
               view === "split"
                 ? "bg-buttonColor hover:bg-blue-600 text-white"
                 : "bg-gray-800 hover:bg-gray-700"
             }`}
           >
-            <span>Login</span>
+            <span>{localStorage.getItem("questUserId") ? "Logout" : "Login"}</span>
           </button>
           <button
             onClick={() => navigate("/generate")}
