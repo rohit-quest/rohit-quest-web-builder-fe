@@ -86,8 +86,8 @@ const Login = () => {
             googleClientId="55807106386-g68a2ecrld4ul9dppvla4ns6qnn9957t.apps.googleusercontent.com"
             google={true}
             email={true}
-            redirectUri="http://localhost:5173/login"
-            redirectURL="http://localhost:5173/onboarding"
+            redirectUri="https://web-craft-quest.netlify.app/login"
+            redirectURL="https://web-craft-quest.netlify.app/onboarding"
             styleConfig={{
               Heading: {
                 fontSize: "24px",
